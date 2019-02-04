@@ -86,10 +86,7 @@
 //格線
 @mixin grid($num) {
   @for $i from 1 through $num{
-      .col-#{$i},
-      .col-md-#{$i},
-      .col-lg-#{$i},
-      .col-xl-#{$i}{
+      .col-#{$i}{
           width: (100%/$num) * $i;
       }
   }
