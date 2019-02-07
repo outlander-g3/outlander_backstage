@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="css/model.css">
   <script src="js/model.js"></script>
   <title>Outlander</title>
 </head>
+
 <body>
   <section class="container">
     <div class="row">
@@ -37,17 +38,17 @@
         </div>
         <ul id="menu">
           <li id="menu__itinerary"><a href="#">行程管理 <i class="material-icons">keyboard_arrow_down</i></a></li>
-            <ul class="submenu" id="submenu__itinerary">
-              <li><a href="model.html">行程種類管理</a></li>
-              <li><a href="#">行程開團資訊管理</a></li>
-              <li><a href="#">訂單管理</a></li>
-              <li><a href="#">裝備管理</a></li>
-              <li><a href="#">嚮導管理</a></li>
-              <li><a href="#">標籤管理</a></li>
-            </ul>
+          <ul class="submenu" id="submenu__itinerary">
+            <li><a href="model.html">行程種類管理</a></li>
+            <li><a href="#">行程開團資訊管理</a></li>
+            <li><a href="#">訂單管理</a></li>
+            <li><a href="#">裝備管理</a></li>
+            <li><a href="#">嚮導管理</a></li>
+            <li><a href="#">標籤管理</a></li>
+          </ul>
           <li><a href="#">登山日誌管理</a></li>
           <li><a href="#">登山技巧管理</a></li>
-          <li><a href="#">客服機器人管理</a></li>
+          <li><a href="robot.html">客服機器人管理</a> </li>
           <li><a href="#">會員系統管理</a></li>
           <li><a href="#">後台系統管理</a></li>
         </ul>
@@ -64,57 +65,51 @@
           </div>
           <div class="tablearea">
             <div class="tab">
-              <button class="tablinks active" value="itineraryType">行程種類</button>
-              <button class="tablinks" value="viewList">行程景點清單</button>
-              <button class="tablinks" value="itineraryView">景點</button>
+              <button class="tablinks active" value="robotList" disabled>客服機器人Q&A</button>
             </div>
-            <a href="editmodel.html" id="addItem" class="btn-main-s">新增項目</a>
+            <a href="editRobot.html" id="addItem" class="btn-main-s">新增項目</a>
             <div id="itineraryType" class="tabcontent active">
               <table>
                 <tr>
                   <th class="col-3">編號</th>
-                  <th class="col-8">名稱</th>
-                  <th class="col-3">行程類型</th>
-                  <th class="col-5">行程種類狀態</th>
+                  <th class="col-10">預設問題</th>
+                  <th class="col-6">排列順序</th>
                   <th class="col-5">處理</th>
                 </tr>
                 <tr>
-                  <td class="col-3">10001</td>
-                  <td class="col-8">優勝美地-美國西部國家公園健行</td>
-                  <td class="col-3">1.官方</td>
-                  <td class="col-5">2.已上架</td>
+                  <td class="col-3">1</td>
+                  <td class="col-10">大洋洲</td>
+                  <td class="col-6">3</td>
                   <td class="col-5">
-                    <a href="editmodel.html"><i class="edit material-icons">edit</i></a>
+                    <a href="editRobot.html"><i class="edit material-icons">edit</i></a>
                     <a href="#"><i class="delete material-icons">delete</i></a>
                   </td>
                 </tr>
                 <tr>
-                  <td class="col-3">10001</td>
-                  <td class="col-8">優勝美地-美國西部國家公園健行</td>
-                  <td class="col-3">1.官方</td>
-                  <td class="col-5">2.已上架</td>
+                  <td class="col-3">1</td>
+                  <td class="col-10">大洋洲</td>
+                  <td class="col-6">3</td>
                   <td class="col-5">
-                    <a href="editmodel.html"><i class="edit material-icons">edit</i></a>
+                    <a href="editRobot.html"><i class="edit material-icons">edit</i></a>
                     <a href="#"><i class="delete material-icons">delete</i></a>
                   </td>
                 </tr>
                 <tr>
-                  <td class="col-3">10001</td>
-                  <td class="col-8">優勝美地-美國西部國家公園健行</td>
-                  <td class="col-3">1.官方</td>
-                  <td class="col-5">2.已上架</td>
+                  <td class="col-3">1</td>
+                  <td class="col-10">大洋洲</td>
+                  <td class="col-6">3</td>
                   <td class="col-5">
-                    <a href="editmodel.html"><i class="edit material-icons">edit</i></a>
+                    <a href="editRobot.html"><i class="edit material-icons">edit</i></a>
                     <a href="#"><i class="delete material-icons">delete</i></a>
                   </td>
                 </tr>
               </table>
             </div>
-            
+
             <div id="viewList" class="tabcontent">
               <h3>行程景點清單</h3>
             </div>
-            
+
             <div id="itineraryView" class="tabcontent">
               <h3>景點</h3>
             </div>
@@ -124,4 +119,5 @@
     </div>
   </section>
 </body>
+
 </html>
