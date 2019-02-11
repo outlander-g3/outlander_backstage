@@ -193,10 +193,10 @@ img{
       a{
         display: inline-block;
         padding: 0 10px;
-        .edit{
+        &.edit{
           color: $color-text;
         }
-        .delete{
+        &.delete{
           color: $color-attention;
         }
       }
