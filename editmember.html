@@ -49,7 +49,7 @@
           <li><a href="#">登山日誌管理</a></li>
           <li><a href="#">登山技巧管理</a></li>
           <li><a href="#">客服機器人管理</a></li>
-          <li><a href="#">會員系統管理</a></li>
+          <li><a href="member.html">會員系統管理</a></li>
           <li><a href="#">後台系統管理</a></li>
         </ul>
         <button id="signOut">登出</button>
@@ -58,54 +58,42 @@
         <div class="main">
           <div id="breadcrumb">
             <span>會員系統管理</span>
+            <i class="material-icons">keyboard_arrow_right</i>
+            <span>會員資料管理</span>
           </div>
-          <div class="tablearea">
-            <div class="tab">
-              <button class="tablinks active" value="itineraryType">行程種類</button>
-              <button class="tablinks" value="viewList">行程景點清單</button>
-              <button class="tablinks" value="itineraryView">景點</button>
-            </div>
-            <a href="editmodel.html" id="addItem" class="btn-main-s">新增項目</a>
-            <div id="itineraryType" class="tabcontent active">
-              <table>
-                <tr>
-                  <th class="col-1">會員編號</th>
-                  <th class="col-3">會員姓名</th>
-                  <th class="col-3">會員暱稱</th>
-                  <th class="col-1">會員頭像</th>
-                  <th class="col-3">會員信箱</th>
-                  <th class="col-3">會員電話</th>
-                  <th class="col-3">會員密碼</th>
-                  <th class="col-1">紅利點數</th>
-                  <th class="col-1">會員狀態</th>
-                </tr>
-                <tr>
-                  <td class="col-1">10001</td>
-                  <td class="col-3">優勝美地美</td>
-                  <td class="col-3">1.官方</td>
-                  <td class="col-1"></td>
-                  <td class="col-3">
-                    <a href="editmodel.html"><i class="edit material-icons">edit</i></a>
-                    <a href="#"><i class="delete material-icons">delete</i></a>
-                  </td>
-                </tr>
+          <form>
+            <div class="editArea">
+              <div class="row">
+                <div class="col-4">
+                  <label for="">紅利點數</label>
+                </div>
+                <div class="col-20">
+                  <input type="text" value="250">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4">
+                  <label for="">會員狀態</label>
+                </div>
+                <div class="col-20">
+                  <select name="" id="">
+                    <option value="">請選擇狀態</option>
+                    <option value="">1.正常</option>
+                    <option value="">0.停權</option>
+                  </select>
+                </div>
+              </div>
 
-
-              </table>
-            </div>
-
-            <div id="viewList" class="tabcontent">
-              <h3>行程景點清單</h3>
-            </div>
-
-            <div id="itineraryView" class="tabcontent">
-              <h3>景點</h3>
-            </div>
-          </div>
+              <div class="confirmArea">
+                <button class="btn btnCancel">取消</button>
+                <button class="btn btnSubmit">確認修改</button>
+              </div>
+          </form>
         </div>
       </div>
     </div>
   </section>
+
 </body>
 
 </html>
