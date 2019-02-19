@@ -1,3 +1,13 @@
+
+<?php 
+ob_start();
+session_start();
+include_once('connectDb.php');
+$qsNo=$_REQUEST['qsNo'];
+$sql="select * from robot where qsNo=".$qsNo;
+$robot=$pdo->query($sql);
+$rows=$robot->fetchObject();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,6 +18,7 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="css/model.css">
   <script src="js/model.js"></script>
+  <script src="js/jquery-3.3.1.min.js"></script>
   <title>Outlander</title>
 </head>
 
@@ -48,7 +59,7 @@
           </ul>
           <li><a href="#">登山日誌管理</a></li>
           <li><a href="#">登山技巧管理</a></li>
-          <li><a href="robot.html">客服機器人管理</a></li>
+          <li><a href="robot.php" id="a">客服機器人管理</a></li>
           <li><a href="#">會員系統管理</a></li>
           <li><a href="#">後台系統管理</a></li>
         </ul>
@@ -59,51 +70,59 @@
           <div id="breadcrumb">
             <span>客服機器人管理</span>
             <i class="material-icons">keyboard_arrow_right</i>
-            <a href="robot.html">客服機器人Q&A清單</a>
+            <a href="robot.php">客服機器人Q&A清單</a>
             <i class="material-icons">keyboard_arrow_right</i>
-            <span id="currentLoc">編輯客服機器人Q&A</span>
+            <span id="currentLoc">新增客服機器人Q&A</span>
           </div>
-          <form>
+          <form id="robotForm" action="robotChange.php">
             <div class="editArea">
               <div class="row">
                 <div class="col-4">
-                  <label for="">預設問題</label>
+                  <label for="qsNo">問題編號</label>
                 </div>
                 <div class="col-20">
-                  <input type="text" value="大洋洲">
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-4">
-                  <label for="">預設答案1</label>
-                </div>
-                <div class="col-20">
-                  <textarea name="" id="" cols="100" rows="5">大洋洲我們有阿斯帕林山</textarea>
+                  <span id><?php echo $rows->qsNo;?></span>
+                  <input type="hidden" id="qsNo" name="qsNo" value="<?php echo $rows->qsNo;?>">
                 </div>
               </div>
               <div class="row">
                 <div class="col-4">
-                  <label for="">預設答案2</label>
+                  <label for="defaultQ">預設問題</label>
                 </div>
                 <div class="col-20">
-                  <textarea name="" id="" cols="100" rows="5" placeholder="若無則毋須填寫"></textarea>
+                <input type="text" id="defaultQ" name="defaultQ" value="<?php echo $rows->defaultQ;?>" maxlength="15">
                 </div>
               </div>
               <div class="row">
                 <div class="col-4">
-                  <label for="">預設答案3</label>
+                  <label for="ans1">預設答案1</label>
                 </div>
                 <div class="col-20">
-                  <textarea name="" id="" cols="100" rows="5" placeholder="若無則毋須填寫"></textarea>
+                  <textarea name="ans1" id="ans1" cols="100" rows="5" value=""><?php echo $rows->ans1;?></textarea>
                 </div>
               </div>
               <div class="row">
                 <div class="col-4">
-                  <label for="">預設答案4</label>
+                  <label for="ans2">預設答案2</label>
                 </div>
                 <div class="col-20">
-                  <textarea name="" id="" cols="100" rows="5" placeholder="若無則毋須填寫"></textarea>
+                  <textarea name="ans2" id="ans2" cols="100" rows="5" placeholder="若無則毋須填寫"><?php echo $rows->ans2;?></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4">
+                  <label for="ans3">預設答案3</label>
+                </div>
+                <div class="col-20">
+                  <textarea name="ans3" id="ans3" cols="100" rows="5" placeholder="若無則毋須填寫"><?php echo $rows->ans3;?></textarea>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4">
+                  <label for="ans4">預設答案4</label>
+                </div>
+                <div class="col-20">
+                  <textarea name="ans4" id="ans4" cols="100" rows="5" placeholder="若無則毋須填寫"><?php echo $rows->ans4;?></textarea>
                 </div>
               </div>
               <div class="row">
@@ -111,7 +130,7 @@
                   <label for="">於對話框排列順序</label>
                 </div>
                 <div class="col-20">
-                  <select name="" id="">
+                  <select name="qsOrd" id="">
                     <option value="0">不出現</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -134,3 +153,5 @@
 </body>
 
 </html>
+<script src="js/editRobot.js">
+</script>

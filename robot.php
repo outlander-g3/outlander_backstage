@@ -1,3 +1,13 @@
+<?php
+  session_start();
+  include_once('connectDb.php');
+
+  //先撈資料
+  $sql="select * from robot";
+  $robot=$pdo->query($sql);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,6 +18,7 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="css/model.css">
   <script src="js/model.js"></script>
+  <script src="js/jquery-3.3.1.min.js"></script>
   <title>Outlander</title>
 </head>
 
@@ -65,7 +76,7 @@
             <div class="tab">
               <button class="tablinks active" value="robotList" disabled>客服機器人Q&A清單</button>
             </div>
-            <a href="editRobot.html" id="addItem" class="btn-main-s">新增項目</a>
+            <a href="newRobot.html" id="addItem" class="btn-main-s">新增項目</a>
             <div id="itineraryType" class="tabcontent active">
               <table>
                 <tr>
@@ -74,33 +85,24 @@
                   <th class="col-6">排列順序</th>
                   <th class="col-5">處理</th>
                 </tr>
-                <tr>
-                  <td class="col-3">1</td>
-                  <td class="col-10">大洋洲</td>
-                  <td class="col-6">3</td>
-                  <td class="col-5">
-                    <a href="editRobot.html"><i class="edit material-icons">edit</i></a>
-                    <a href="#"><i class="delete material-icons">delete</i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="col-3">1</td>
-                  <td class="col-10">大洋洲</td>
-                  <td class="col-6">3</td>
-                  <td class="col-5">
-                    <a href="editRobot.html"><i class="edit material-icons">edit</i></a>
-                    <a href="#"><i class="delete material-icons">delete</i></a>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="col-3">1</td>
-                  <td class="col-10">大洋洲</td>
-                  <td class="col-6">3</td>
-                  <td class="col-5">
-                    <a href="editRobot.html"><i class="edit material-icons">edit</i></a>
-                    <a href="#"><i class="delete material-icons">delete</i></a>
-                  </td>
-                </tr>
+                <?php
+                  while($rows=$robot->fetchObject()){
+
+                ?>
+                	<tr class="qsNo<?php echo $rows->qsNo;?>">
+                    <form action="editRobot.php" id="qsNo<?php echo $rows->qsNo;?>" >
+                    <input type="hidden" name="qsNo" value="<?php echo $rows->qsNo;?>">
+                	  <td class="col-3"><?php echo $rows->qsNo;?></td>
+                	  <td class="col-10"><?php echo $rows->defaultQ;?></td>
+                	  <td class="col-6"><?php echo $rows->qsOrd;?></td>
+                	  <td class="col-5">
+                	    <a href="#" class="tdEdit"><i class="edit material-icons">edit</i></a>
+                	    <a href="#" class="tdDelete"><i class="delete material-icons">delete</i></a>
+                    </td>
+                    </form>
+                	</tr>
+
+                <?php }?>
               </table>
             </div>
           </div>
@@ -111,3 +113,4 @@
 </body>
 
 </html>
+<script src="js/robot.js"></script>
