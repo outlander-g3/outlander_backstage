@@ -1,4 +1,5 @@
 <?php
+//編輯被提交後run的php
 try{
     include_once('connectDb.php');
     $qsOrd=$_REQUEST['qsOrd'];

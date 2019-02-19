@@ -1,5 +1,6 @@
 <?php
 try{
+    //點擊刪除之後run的php
     include_once('connectDb.php');
 
     $sql="delete from robot where qsNo={$_REQUEST['qsNo']}";

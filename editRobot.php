@@ -2,6 +2,7 @@
 <?php 
 ob_start();
 session_start();
+//編輯頁的php
 include_once('connectDb.php');
 $qsNo=$_REQUEST['qsNo'];
 $sql="select * from robot where qsNo=".$qsNo;

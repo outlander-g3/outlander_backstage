@@ -1,5 +1,6 @@
 <?php
 try{
+    //新增robot提交後run的php
     include_once('connectDb.php');
     $qsOrd=$_REQUEST['qsOrd'];
 
