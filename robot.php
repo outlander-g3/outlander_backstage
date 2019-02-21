@@ -92,11 +92,12 @@
                 	<tr class="qsNo<?php echo $rows->qsNo;?>">
                     <form action="editRobot.php" id="qsNo<?php echo $rows->qsNo;?>" >
                     <input type="hidden" name="qsNo" value="<?php echo $rows->qsNo;?>">
+                    <input type="hidden" name="delete" value="1">
                 	  <td class="col-3"><?php echo $rows->qsNo;?></td>
                 	  <td class="col-10"><?php echo $rows->defaultQ;?></td>
                 	  <td class="col-6"><?php echo $rows->qsOrd;?></td>
                 	  <td class="col-5">
-                	    <a href="#" class="tdEdit"><i class="edit material-icons">edit</i></a>
+                	    <a href="editRobot.php?qsNo=<?php echo $rows->qsNo;?>" class="tdEdit"><i class="edit material-icons">edit</i></a>
                 	    <a href="#" class="tdDelete"><i class="delete material-icons">delete</i></a>
                     </td>
                     </form>
@@ -113,4 +114,27 @@
 </body>
 
 </html>
-<script src="js/robot.js"></script>
+<script>
+  $(document).ready(function () {
+
+$('.tdDelete').click(function () {
+    //先跳窗是否刪除
+    //是的話刪除
+    //進入編輯頁 但要先傳送好qsNo
+    let qsNo = $(this).closest('tr').children('input[name="qsNo"]').val();
+    let ans = confirm('確定刪除編號 ' + qsNo + " 的問題嗎");
+    if (ans == true) {
+        $.ajax({
+            type: 'post',
+            url: 'robotChange.php',
+            data: "qsNo=" + qsNo + '&delete=1',
+            success: function (data) {
+                alert('成功刪除');
+                $('#itineraryType tr[class="qsNo' + qsNo + '"]').remove();
+            },
+        });
+    }
+
+});
+});
+</script>

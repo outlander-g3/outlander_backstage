@@ -66,7 +66,7 @@
                         <i class="material-icons">keyboard_arrow_right</i>
                         <span id="currentLoc">編輯客服機器人Q&A</span>
                     </div>
-                    <form action="newRobot.php" id="new">
+                    <form action="robotChange.php" id="new">
                         <div class="editArea">
                             <div class="row">
                                 <div class="col-4">
@@ -140,4 +140,27 @@
 </body>
 
 </html>
-<script src="js/newRobot.js"></script>
+<script>
+    $(document).ready(function () {
+    $('#a').click(function () {
+        let ans = confirm('確定離開編輯頁面嗎');
+        if (ans == true) {
+            location.href = 'robot.php';
+        }
+    });
+    $('.btnCancel').click(function (e) {
+        e.preventDefault();
+        window.location.href = 'robot.php';
+    });
+    $('.btnSubmit').click(function (e) {
+        //預設問題跟第一個回答不能是空值
+        e.preventDefault();
+        if ($.trim($('#defaultQ').val()) == '' || $.trim($('#ans1').val()) == '') {
+            alert('預設問題或答案一不可為空值');
+        } else {
+            $('#new').submit();
+        }
+    });
+});
+
+</script>
