@@ -76,7 +76,7 @@
             <div class="tab">
               <button class="tablinks active" value="robotList" disabled>客服機器人Q&A清單</button>
             </div>
-            <a href="newRobot.html" id="addItem" class="btn-main-s">新增項目</a>
+            <a href="addRobot.php" id="addItem" class="btn-main-s">新增項目</a>
             <div id="itineraryType" class="tabcontent active">
               <table>
                 <tr>

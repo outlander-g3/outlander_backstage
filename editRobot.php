@@ -8,6 +8,7 @@ $qsNo=$_REQUEST['qsNo'];
 $sql="select * from robot where qsNo=".$qsNo;
 $robot=$pdo->query($sql);
 $rows=$robot->fetchObject();
+$qsOrd=$rows->qsOrd;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -131,7 +132,8 @@ $rows=$robot->fetchObject();
                   <label for="">於對話框排列順序</label>
                 </div>
                 <div class="col-20">
-                  <select name="qsOrd" id="">
+                  <select name="qsOrd" id="" >
+                    <option value="<?php echo $qsOrd;?>"><?php echo $qsOrd;?></option>
                     <option value="0">不出現</option>
                     <option value="1">1</option>
                     <option value="2">2</option>

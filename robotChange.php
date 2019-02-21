@@ -5,18 +5,15 @@ try{
     $qsOrd=$_REQUEST['qsOrd'];
     $qsNo=$_REQUEST['qsNo'];
     if($qsOrd!=0){
-        //先select *看有沒有＝現在傳進來的qsOrd 有的話其他人就要往後挪
-        $sql="select qsOrd from robot where qsOrd>={$qsOrd}";
+        //先select *看序號有沒有被別人佔據
+        $sql="select qsOrd from robot where qsOrd={$qsOrd} and qsNo <> {$qsNo}";
         $ord=$pdo->query($sql);
         if($ord->rowCount()!=0){
-            //有人是現在的順序，那現在的順序跟後面的順序就要+1存回去，4的要變成0
-            while($rows=$ord->fetchObject()){
-                    //3變成4  4變成５
-                    $newOrd=$rows->qsOrd+1;
-                    $sql="update robot set qsOrd=".$newOrd." where qsOrd=".$rows->qsOrd;
-                    $pdo->exec($sql);
-                    //為什麼一開始＝4的時候會變成五QQ不是只跑一次嗎！！
-            }
+            $rows=$ord->fetchObject();
+            //有人是現在的順序，那現在的順序跟後面的順序就要+1存回去，5的要變成0
+            //3變成4  4變成５
+            $sql="update robot set qsOrd=qsOrd+1 where qsOrd>=".$rows->qsOrd;
+            $pdo->exec($sql);
         }
     }
     $sql="update robot set defaultQ='{$_REQUEST['defaultQ']}' where qsNo=".$qsNo;
@@ -28,6 +25,8 @@ try{
     $sql="update robot set ans3='{$_REQUEST['ans3']}' where qsNo=".$qsNo;
     $pdo->exec($sql);
     $sql="update robot set ans4='{$_REQUEST['ans4']}' where qsNo=".$qsNo;
+    $pdo->exec($sql);
+    $sql="update robot set qsOrd='{$_REQUEST['qsOrd']}' where qsNo=".$qsNo;
     $pdo->exec($sql);
 
     $sql="update robot set qsOrd=0 where qsOrd>4";
