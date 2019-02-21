@@ -7,7 +7,7 @@
   
   $sql="select * from report";
   $report=$pdo->query($sql);
-
+  
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -102,9 +102,9 @@
                     $result="不屏蔽";
                   }
                   ?>
-                <tr id="rptNo<?php echo $rows->rptNo;?>">
+                <tr id="rptNo<?php echo $rows->rptNo;?>">    
                   <td class="col-3"><?php echo $rows->rptNo;?></td>
-                  <td class="col-8"><?php echo $jnTitle->jnTitle;?></td>
+                  <td class="col-8"><a href="journal.php/?jnNo=<?php echo $rows->jnNo;?>"><?php echo $jnTitle->jnTitle;?></a></td>
                   <td class="col-7"><?php echo $rows->reason;?></td>
                   <td class="col-3 result"><?php echo $result;?></td>
                   <td class="col-3">
@@ -127,5 +127,32 @@
 </body>
 
 </html>
-<script src="js/common.js"></script>
-<script src="js/journal.js"></script>
+<script>
+
+$(document).ready(function () {
+    $('.delete').click(function (e) {
+        e.preventDefault();
+
+        let rptNo = $(this).closest('tr').attr('id').replace('rptNo', '');
+        let result = confirm('是否屏蔽該日誌？');
+        let txt = $(this).closest('tr').children('.result');
+        $.ajax({
+            type: 'post',
+            url: 'result.php',
+            data: 'result=' + result + '&rptNo=' + rptNo,
+            success: function (data) {
+
+                if (result == true) {
+                    alert('已屏蔽該日誌');
+                    txt.html('屏蔽');
+                }
+                else {
+                    alert('該日誌未受屏蔽');
+                    txt.html('不屏蔽');
+                }
+            },
+        });
+    });
+
+});
+</script>
