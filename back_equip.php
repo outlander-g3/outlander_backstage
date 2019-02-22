@@ -41,7 +41,7 @@ session_start();
   <div id="breadcrumb">
     <span>行程管理</span>
     <i class="material-icons">keyboard_arrow_right</i>
-    <span>裝備管理</span>
+    <span id="currentLoc">裝備管理</span>
   </div>
   <div class="tablearea">
     <div class="tab">
