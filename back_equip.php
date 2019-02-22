@@ -2,7 +2,14 @@
 session_start();
 
 //===========================自己的php開始=======================
-
+try{
+  require_once('connectDb.php');
+  $sql = 'select * from equipment a join orderchecklist b on a.eqmNo=b.eqmNo';
+  $eq = $pdo->query($sql);
+}catch (PDOException $e) {
+  echo "失敗",$e->getMessage(),"<br>";
+  echo "行號",$e->getLine();
+}
 
 
 
@@ -58,16 +65,18 @@ session_start();
           <th class="col-3">圖片</th>
           <th class="col-5">處理</th>
         </tr>
+        <?php while($eqRow = $eq->fetch()){?>
         <tr>
-          <td class="col-3">1001</td>
-          <td class="col-8">帳篷</td>
-          <td class="col-3">寢具類</td>
+          <td class="col-3"><?php echo $eqRow['eqmNo']; ?></td>
+          <td class="col-8"><?php echo $eqRow['eqmName']; ?></td>
+          <td class="col-3"><?php echo $eqRow['eqmKind']; ?></td>
           <td class="col-3"><input type="file" placeholder="請選擇檔案" multiple></td>
           <td class="col-5">
             <a href="back_equipListEdit.php"><i class="edit material-icons">edit</i></a>
             <a href="#"><i class="delete material-icons">delete</i></a>
           </td>
         </tr>
+        <?php } ?>
         <tr>
           <td class="col-3">1001</td>
           <td class="col-8">帳篷</td>
@@ -101,14 +110,16 @@ session_start();
           <th class="col-8">山岳</th>
           <th class="col-5">處理</th>
         </tr>
+        <?php while($eqRow2 = $eq->fetch()){?>
         <tr>
-          <td class="col-3">10001</td>
+          <td class="col-3"><?php echo $eqRow2['ordNo']; ?></td>
           <td class="col-8">征服東北亞第一高峰</td>
           <td class="col-5">
             <a href="back_editEquipList.php"><i class="edit material-icons">edit</i></a>
             <a href="#"><i class="delete material-icons">delete</i></a>
           </td>
         </tr>
+        <?php } ?>
         <tr>
           <td class="col-3">10001</td>
           <td class="col-8">征服東北亞第一高峰</td>
