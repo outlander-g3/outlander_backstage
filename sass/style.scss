@@ -1,0 +1,196 @@
+@import "base/_reset.scss";
+@import "base/_var.scss";
+@import "mixin/_mixin.scss";
+
+@import "_header.scss";
+@import "_footer.scss";
+
+// *{
+//     outline: 1px solid red;
+// }
+
+body *{
+    font-family: "Microsoft JhengHei","微軟正黑體";
+}
+a{
+    text-decoration: none;
+}
+
+
+.no-active{
+    display:none;
+}
+.clearfix{
+    content:'';
+    clear: both;
+    display: block;
+}
+.row{
+    display: flex;
+}
+//呼叫格線
+@include grid(12);
+
+//跳窗左邊鈕
+.btn-jump-left{
+    background-color:$color-btn-sub;
+    border:2px solid $color-btn-sub;
+    width: 116px;
+    @include btn();
+}
+
+//跳窗右邊鈕
+.btn-jump-right{
+    background-color:$color-btn-main;
+    border:2px solid $color-btn-main;
+    width: 116px;
+    @include btn();
+}
+
+
+//四個字的主按鈕
+.btn-main-s{
+    background-color:$color-btn-main;
+    border:2px solid $color-btn-main;
+    @include btn();
+    @include btn-s();
+}
+//六個字的主按鈕
+.btn-main-l{
+    background-color:$color-btn-main;
+    border:2px solid $color-btn-main;
+    @include btn();
+    @include btn-l();
+}
+//四個字次按鈕
+.btn-sub-s{
+    background-color:$color-btn-sub;
+    border:2px solid $color-btn-sub;
+    @include btn();
+    @include btn-s();
+}
+//六個字次按鈕
+.btn-sub-l{
+    background-color:$color-btn-sub;
+    border:2px solid $color-btn-sub;
+    @include btn();
+    @include btn-l();
+}
+
+//陰影
+.shadow-text{
+    text-shadow: $shadow;
+} 
+.shadow-box{
+    box-shadow: $shadow;
+}
+
+//直接呼叫，改inputText樣式
+@include inputText();
+
+
+//跳窗
+.jpBase{
+    position: fixed;
+    background-color: rgba(0,0,0,.65);
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index:1200;
+    display:none;
+    .jpWin{
+        position: fixed;
+        top:50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        width: 350px;
+        box-sizing: border-box;
+        background-color: $color-main1;
+        color:$color-white;
+        .jpTitle{
+            padding: 12px 15px;
+            @include f16();
+            color:$color-white;
+            background-image: url(../img/winJump.png);
+            background-size: cover;
+        }
+    
+        .jpCont{
+            padding: 50px 50px 0px 50px;
+            line-height: 26px;
+        }
+        .jpBtn{
+            >.row{
+                justify-content: space-between;
+                padding: 39px 38px 38px 50px;
+            }
+        }
+}
+}
+
+
+//會員登入
+.jpBase.memLogin{
+    // display:block;
+    .jpWin{
+        .jpCont{
+            p{
+                @include pBottom(18);
+            }
+            >div{
+                position: relative;
+                width: 250px;
+                i{
+                    position: absolute;
+                    color:$color-gray1;
+                    font-size: 22pt;
+                    // top:50%;
+                    transform: translate(12px,8px);
+                } 
+                input{
+                    width: 100%;
+                    line-height: 26px;
+                    display:inline-block;
+                    padding: 8px 0;
+                    @include f16();
+                    box-sizing: border-box;
+                    @include pLeft(45);
+                    &::placeholder{
+                        color:$color-gray1;
+                    }                   
+                 }
+                 span{
+                     display: inline-block;
+                     @include pTop(4);
+                     color:#D94646;
+                 }
+            }
+            .jpCont--psw{
+                @include mTop(10);
+            }
+        }
+        .jpBtn{
+            @include pTop(38);
+            @include pBottom(50);
+            text-align: center;
+        }
+        .memLogin--bottom{
+            position: absolute;
+            bottom: 5px;
+            .row{
+                width: 350px;
+                justify-content: space-between;
+                a{
+                    color: $color-white;
+                    padding: 5px;
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+}
+
+// *{
+//     outline: 1px solid red;
+// }
