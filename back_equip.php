@@ -48,7 +48,7 @@ session_start();
       <button class="tablinks active" value="itineraryType">裝備</button>
       <button class="tablinks" value="viewList">裝備清單</button>
     </div>
-    <a href="back_editEquipList.php" id="addItem" class="btn-main-s">新增項目</a>
+    <a href="back_equipListEdit.php" id="addItem" class="btn-main-s">新增項目</a>
     <div id="itineraryType" class="tabcontent active">
       <table>
         <tr>
@@ -64,7 +64,7 @@ session_start();
           <td class="col-3">寢具類</td>
           <td class="col-3"><input type="file" placeholder="請選擇檔案" multiple></td>
           <td class="col-5">
-            <a href="back_editEquip.php"><i class="edit material-icons">edit</i></a>
+            <a href="back_equipListEdit.php"><i class="edit material-icons">edit</i></a>
             <a href="#"><i class="delete material-icons">delete</i></a>
           </td>
         </tr>
@@ -74,7 +74,7 @@ session_start();
           <td class="col-3">寢具類</td>
           <td class="col-3"><input type="file" placeholder="請選擇檔案" multiple></td>
           <td class="col-5">
-            <a href="back_editEquip.php"><i class="edit material-icons">edit</i></a>
+            <a href="back_equipListEdit.php"><i class="edit material-icons">edit</i></a>
             <a href="#"><i class="delete material-icons">delete</i></a>
           </td>
         </tr>
@@ -84,7 +84,7 @@ session_start();
           <td class="col-3">寢具類</td>
           <td class="col-3"><input type="file" placeholder="請選擇檔案" multiple></td>
           <td class="col-5">
-            <a href="back_editEquip.php"><i class="edit material-icons">edit</i></a>
+            <a href="back_equipListEdit.php"><i class="edit material-icons">edit</i></a>
             <a href="#"><i class="delete material-icons">delete</i></a>
           </td>
         </tr>
