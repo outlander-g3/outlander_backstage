@@ -6,6 +6,10 @@ try{
   require_once('connectDb.php');
   $sql = 'select * from equipment a join orderchecklist b on a.eqmNo=b.eqmNo';
   $eq = $pdo->query($sql);
+
+  // $sql = 'SELECT a.ordNo,c.pdkName ,c.mt FROM `order` a , product b,productkind c WHERE a.pdNo=b.pdNo OR b.pdkNo=c.pdkNo';
+  $sql = 'SELECT pdkNo,pdkName  FROM productkind ';
+  $eqL = $pdo->query($sql);
 }catch (PDOException $e) {
   echo "失敗",$e->getMessage(),"<br>";
   echo "行號",$e->getLine();
@@ -55,7 +59,7 @@ try{
       <button class="tablinks active" value="itineraryType">裝備</button>
       <button class="tablinks" value="viewList">裝備清單</button>
     </div>
-    <a href="back_equipListEdit.php" id="addItem" class="btn-main-s">新增項目</a>
+    <a href="back_equipListEdit.php?pdk='NULL'" id="addItem" class="btn-main-s">新增項目</a>
     <div id="itineraryType" class="tabcontent active">
       <table>
         <tr>
@@ -73,30 +77,12 @@ try{
           <td class="col-3"><input type="file" placeholder="請選擇檔案" multiple></td>
           <td class="col-5">
             <a href="back_equipListEdit.php"><i class="edit material-icons">edit</i></a>
-            <a href="#"><i class="delete material-icons">delete</i></a>
+            <a href="back_equip_delete.php?eqmNo=<?php echo $eqRow['eqmNo']; ?>"><i class="delete material-icons">delete</i></a>
           </td>
         </tr>
         <?php } ?>
-        <tr>
-          <td class="col-3">1001</td>
-          <td class="col-8">帳篷</td>
-          <td class="col-3">寢具類</td>
-          <td class="col-3"><input type="file" placeholder="請選擇檔案" multiple></td>
-          <td class="col-5">
-            <a href="back_equipListEdit.php"><i class="edit material-icons">edit</i></a>
-            <a href="#"><i class="delete material-icons">delete</i></a>
-          </td>
-        </tr>
-        <tr>
-          <td class="col-3">1001</td>
-          <td class="col-8">帳篷</td>
-          <td class="col-3">寢具類</td>
-          <td class="col-3"><input type="file" placeholder="請選擇檔案" multiple></td>
-          <td class="col-5">
-            <a href="back_equipListEdit.php"><i class="edit material-icons">edit</i></a>
-            <a href="#"><i class="delete material-icons">delete</i></a>
-          </td>
-        </tr>
+
+
         
         
       
@@ -106,36 +92,21 @@ try{
     <div id="viewList" class="tabcontent">
       <table>
         <tr>
-          <th class="col-3">編號</th>
-          <th class="col-8">山岳</th>
+          <th class="col-3">行程種類編號</th>
+          <th class="col-8">行程種類名稱</th>
           <th class="col-5">處理</th>
         </tr>
-        <?php while($eqRow2 = $eq->fetch()){?>
+        <?php while($eqRow2 = $eqL->fetch()){?>
         <tr>
-          <td class="col-3"><?php echo $eqRow2['ordNo']; ?></td>
-          <td class="col-8">征服東北亞第一高峰</td>
+          <td class="col-3"><?php echo $eqRow2['pdkNo']; ?></td>
+          <td class="col-8"><?php echo $eqRow2['pdkName']; ?></td>
           <td class="col-5">
-            <a href="back_editEquipList.php"><i class="edit material-icons">edit</i></a>
-            <a href="#"><i class="delete material-icons">delete</i></a>
+            <a href="back_equipListEdit.php?pdkNo=<?php echo $eqRow2['pdkNo']; ?>&pdkName=<?php echo $eqRow2['pdkName']; ?>"><i class="edit material-icons">edit</i></a>
+            <a href="back_equip_delete.php?pdkNo=<?php echo $eqRow2['pdkNo']; ?>"><i class="delete material-icons">delete</i></a>
           </td>
         </tr>
         <?php } ?>
-        <tr>
-          <td class="col-3">10001</td>
-          <td class="col-8">征服東北亞第一高峰</td>
-          <td class="col-5">
-            <a href="back_editEquipList.php"><i class="edit material-icons">edit</i></a>
-            <a href="#"><i class="delete material-icons">delete</i></a>
-          </td>
-        </tr>
-        <tr>
-          <td class="col-3">10001</td>
-          <td class="col-8">征服東北亞第一高峰</td>
-          <td class="col-5">
-            <a href="back_editEquipList.php"><i class="edit material-icons">edit</i></a>
-            <a href="#"><i class="delete material-icons">delete</i></a>
-          </td>
-        </tr>
+    
       </table>
     </div>
   </div>

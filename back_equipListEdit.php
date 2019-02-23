@@ -2,9 +2,16 @@
 session_start();
 
 //===========================自己的php開始=======================
+if(isset($_REQUEST['pdNo'])){
+$pdkNo = $_REQUEST['pdkNo'];
+$pdkName = $_REQUEST['pdkName'];
+}
+try{
 
-
-
+}catch (PDOException $e) {
+  echo "失敗",$e->getMessage(),"<br>";
+  echo "行號",$e->getLine();
+}
 
 
 
@@ -49,32 +56,16 @@ session_start();
   </div>
   <form>
     <div class="editArea">
+    
       <div class="row">
         <div class="col-4">
-          <label for="">裝備清單編號</label>
+          <label for="">行程種類名稱</label>
         </div>
         <div class="col-20">
-          <span>1001</span>
-          <!-- <input type="text" value="10001"> -->
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-4">
-          <label for="">山岳</label>
-        </div>
-        <div class="col-20">
-            <select>
-                <option value="Jade">玉山</option>
-                <option value="himalayas">聖母峰</option>
-                <option value="fuji">富士山</option>
-                <option value="alps">少女峰</option>
-                <option value="kilimanjaro">吉利馬札羅山</option>
-                <option value="yosemite">優勝美地國家公園</option>
-                <option value="machu">馬丘比丘</option>
-                <option value="paine">百內國家公園</option>
-                <option value="cruz">聖克魯斯山</option>
-                <option value="aspalin">阿斯帕林山</option>
-              </select>
+       <input type="text" value="<?php 
+        if(isset($_REQUEST['pdNo'])){
+       echo $pdkName; 
+       }?>">
         </div>
       </div>
       <div class="row">
@@ -82,11 +73,11 @@ session_start();
           <label for="">寢具類</label>
         </div>
         <div class="col-20">
-          <input type="checkbox" value="帳篷">帳篷
-          <input type="checkbox" value="睡袋外套">睡袋外套
-          <input type="checkbox" value="睡袋內套">睡袋內套
-          <input type="checkbox" value="露宿袋">露宿袋
-          <input type="checkbox" value="保暖睡墊">保暖睡墊
+          <input type="checkbox" value="1">帳篷
+          <input type="checkbox" value="2">睡袋外套
+          <input type="checkbox" value="3">睡袋內套
+          <input type="checkbox" value="4">露宿袋
+          <input type="checkbox" value="5">保暖睡墊
         </div>
       </div>
       <div class="row">
