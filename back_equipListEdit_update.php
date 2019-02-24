@@ -1,5 +1,6 @@
 <?php
 session_start();
+error_reporting(0);
 $pdkNo = $_REQUEST['pdkNo'];
 $eqmNo = $_REQUEST['eqmNo'];
 
@@ -22,22 +23,30 @@ try{
    
     $product->execute();
   }else{
-    if($pdkNo == 'NULL'){
-      $sql = 'insert into product (pdkNo, gdNo1, pdStart, pdStatus)
-      values (:pdkNo, :gdNo1, :pdStart, :pdStatus)';
+    if($pdkNo == NULL){
+      $sql = 'insert into productchecklist (pdkNo, eqmNo)
+      values (:pdkNo, :eqmNo)';
       $product = $pdo -> prepare($sql);
     }
+    //要先有行程種類才能創建裝備清單
+    $pdkNo =20;
+    // echo $eqmNo;
+    // $eqmNoS =[];
+    // foreach($eqmNoS as $eqmNo) {
+    //   // array_push($eqmNoS,$eqmNo);
+    // }
+    $eqmNoS = array();
+    foreach($values as $key => $eqmNo) {
+      $eqmNoS[] = $key . " = '" . $eqmNo . "'";
+    }
+    print_r($eqmNoS);
     $product->bindValue(':pdkNo', $pdkNo);
-    $product->bindValue(':gdNo1', $gdNo1);
-    $product->bindValue(':pdStart', $pdStart);
-    $product->bindValue(':pdStatus', $pdStatus);
+    $product->bindValue(':eqmNo', $eqmNo);
     $product->execute();
   }
 }catch (PDOException $e) {
   echo "失敗",$e->getMessage(),"<br>";
   echo "行號",$e->getLine();
 }
-if(isset($e) === false){
-  header("location:back_product.php");
-}
+
 ?>

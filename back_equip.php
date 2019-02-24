@@ -59,11 +59,11 @@ try{
       <button class="tablinks active" value="itineraryType">裝備</button>
       <button class="tablinks" value="viewList">裝備清單</button>
     </div>
-    <a href="back_equipListEdit.php?pdk='NULL'" id="addItem" class="btn-main-s">新增項目</a>
+    <a href="back_equipListEdit.php?pdkNo=&pdkName=" id="addItem" class="btn-main-s">新增項目</a>
+    <!-- <a href="back_equipEdit.php?eqmNo=&eqmName=" id="addItem" class="btn-main-s">新增項目</a> -->
     <div id="itineraryType" class="tabcontent active">
       <table>
         <tr>
-          <th class="col-3">編號</th>
           <th class="col-8">名稱</th>
           <th class="col-3">分類</th>
           <th class="col-3">圖片</th>
@@ -71,12 +71,12 @@ try{
         </tr>
         <?php while($eqRow = $eq->fetch()){?>
         <tr>
-          <td class="col-3"><?php echo $eqRow['eqmNo']; ?></td>
+          <input type="hidden" naem="eqmNo" value="<?php echo $eqRow['eqmNo']; ?>">
           <td class="col-8"><?php echo $eqRow['eqmName']; ?></td>
           <td class="col-3"><?php echo $eqRow['eqmKind']; ?></td>
           <td class="col-3"><input type="file" placeholder="請選擇檔案" multiple></td>
           <td class="col-5">
-            <a href="back_equipListEdit.php"><i class="edit material-icons">edit</i></a>
+            <a href="back_equipEdit.php?eqmNo=<?php echo $eqRow['eqmNo']; ?>&eqmName=<?php echo $eqRow['eqmName']; ?>"><i class="edit material-icons">edit</i></a>
             <a href="back_equip_delete.php?eqmNo=<?php echo $eqRow['eqmNo']; ?>"><i class="delete material-icons">delete</i></a>
           </td>
         </tr>
