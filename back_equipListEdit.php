@@ -5,11 +5,18 @@ session_start();
 //===========================自己的php開始=======================
 try{
   require_once('connectDb.php');
-  $pdkNo = $_REQUEST['pdkNo'];
+  // $pdkNo = $_REQUEST['pdkNo'];
   if(isset($_REQUEST['pdkNo'])){
     $pdkNo = $_REQUEST['pdkNo'];
     $pdkName = $_REQUEST['pdkName'];
-    
+    $sql = 'select distinct pdkNo  , eqmNo from productchecklist where pdkNo=:pdkNo';
+    $pdkCollect = $pdo->prepare($sql);
+    $pdkCollect ->bindValue(':pdkNo',$pdkNo);
+    $pdkCollect ->execute();
+    $pdkCollectChecked = [];
+    while($pdkCollectRow = $pdkCollect->fetch(PDO::FETCH_ASSOC)){
+      array_push($pdkCollectChecked, $pdkCollectRow['eqmNo']);
+    }
   }
   if(isset($_REQUEST['pdkNo'])){
     $sql = 'select DISTINCT pdkNo,eqmNo from productchecklist where pdkNo='.$pdkNo;
@@ -48,14 +55,7 @@ try{
     $sql = 'select eqmNo,eqmName from equipment where eqmKind="食品類"';
     $eqmF = $pdo->query($sql);
 
-    $sql = 'select distinct pdkNo  , eqmNo from productchecklist where pdkNo=:pdkNo';
-    $pdkCollect = $pdo->prepare($sql);
-    $pdkCollect ->bindValue(':pdkNo',$pdkNo);
-    $pdkCollect ->execute();
-    $pdkCollectChecked = [];
-    while($pdkCollectRow = $pdkCollect->fetch(PDO::FETCH_ASSOC)){
-      array_push($pdkCollectChecked, $pdkCollectRow['eqmNo']);
-    }
+ 
   
   }catch (PDOException $e) {
     echo "失敗",$e->getMessage(),"<br>";
