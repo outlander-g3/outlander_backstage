@@ -13,6 +13,10 @@ try{
     $eqm->execute();
     $eqmRow = $eqm->fetch(PDO::FETCH_ASSOC);
   }
+  $sql = 'select distinct eqmKind
+  from equipment';
+  $eqmK = $pdo->query($sql);
+
 }catch (PDOException $e) {
   echo "失敗",$e->getMessage(),"<br>";
   echo "行號",$e->getLine();
@@ -36,6 +40,7 @@ try{
 
   <!-- 可自行更動區塊 -->
   <title>山行者後台 - 編輯裝備清單</title>
+  <link rel="Shortcut Icon" type="image/x-icon" href="img/logo.png">
   <!-- 可自行更動區塊 -->
 
 <!-- ===========================自己的css開始======================= -->
@@ -61,10 +66,10 @@ try{
   </div>
   <form action="back_equipEdit_update.php" method="get">
     <div class="editArea">
-      <input type="hidden" name="eqmNo" value="<?php  
-      if(isset($_REQUEST['eqmNo'])){
-        echo $eqmNo; 
-      }?>">
+     
+      <?php if(isset($_REQUEST['eqmNo'])){?>
+      <input type="hidden" name="eqmNo" value="<?php echo $eqmNo; ?>">
+      <?php } ?>
       <div class="row">
         <div class="col-4">
           <label for="">裝備名稱</label>
@@ -73,7 +78,7 @@ try{
         <input type="text" name="eqmName" value="<?php 
         if(isset($_REQUEST['eqmNo'])){
         echo $eqmName; 
-        }?>">
+        }?>" required>
         </div>
       </div>
       <div class="row">
@@ -81,29 +86,29 @@ try{
           <label for="">裝備分類</label>
         </div>
         <div class="col-20">
-        <input type="text" name="eqmKind" value="<?php 
-        if(isset($_REQUEST['eqmNo'])){
-        echo  $eqmRow['eqmKind']; 
-        }?>">
-          <select name="eqmKind" id="">
-            <option value="">請選擇</option>
-            <option value="寢具類">寢具類</option>
-            <option value="醫療類">醫療類</option>
-            <option value="衣物類">衣物類</option>
-            <option value="配件類">配件類</option>
-            <option value="炊具類">炊具類</option>
-            <option value="食品類">食品類</option>
+          <select name="eqmKind" id="" required>
+            <option value="" 
+              <?php 
+              if(isset($eqmNo) === false){
+                echo 'selected';
+                  };?>>請選擇裝備分類</option>
+              <?php while($eqmKRow = $eqmK->fetch(PDO::FETCH_ASSOC)){?>
+                <option value="<?php echo $eqmKRow['eqmKind'];?>" 
+                  <?php 
+                  if(isset($eqmNo)){
+                    if($eqmRow['eqmKind'] == $eqmKRow['eqmKind']){
+                      echo 'selected';
+                    }
+                  };?>>
+                  <?php echo $eqmKRow['eqmKind'];?>
+                </option>
+              <?php } ?>
           </select>
+   
+    
         </div>
       </div>
-      <div class="row">
-        <div class="col-4">
-          <label for="">裝備名稱</label>
-        </div>
-        <div class="col-20">
-          <input type="file" name="eqmImg" id="">
-        </div>
-      </div>
+
 
       
       

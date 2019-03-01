@@ -1,20 +1,65 @@
 <?php
 session_start();
+// error_reporting(0);
 
 //===========================自己的php開始=======================
-
-if(isset($_REQUEST['pdkNo'])){
-$pdkNo = $_REQUEST['pdkNo'];
-$pdkName = $_REQUEST['pdkName'];
-
-echo $pdkNo;
-echo $pdkName;
-}
 try{
+  require_once('connectDb.php');
+  $pdkNo = $_REQUEST['pdkNo'];
+  if(isset($_REQUEST['pdkNo'])){
+    $pdkNo = $_REQUEST['pdkNo'];
+    $pdkName = $_REQUEST['pdkName'];
+    
+  }
+  if(isset($_REQUEST['pdkNo'])){
+    $sql = 'select DISTINCT pdkNo,eqmNo from productchecklist where pdkNo='.$pdkNo;
+    $pdkC = $pdo->query($sql);
+    // $pdkCArr = [];
+    // while($pdkCRow = $pdkC->fetch(PDO::FETCH_ASSOC)){
+    //   array_push($pdkCArr,$pdkCRow['eqmNo']);
+    // }
 
-}catch (PDOException $e) {
-  echo "失敗",$e->getMessage(),"<br>";
-  echo "行號",$e->getLine();
+
+  }
+    $sql = 'select DISTINCT pdkNo,eqmNo from productchecklist';
+    $pdk = $pdo->query($sql);
+
+    $sql = 'select DISTINCT pdkNo ,pdkName from productkind';
+    $pdkD = $pdo->query($sql);
+
+    $sql = 'select eqmNo,eqmName from equipment where eqmKind="寢具類"';
+    $eqmS = $pdo->query($sql);
+   
+ 
+  
+    
+    $sql = 'select eqmNo,eqmName from equipment where eqmKind="醫療類"';
+    $eqmM = $pdo->query($sql);
+    
+    $sql = 'select eqmNo,eqmName from equipment where eqmKind="衣物類"';
+    $eqmC = $pdo->query($sql);
+    
+    $sql = 'select eqmNo,eqmName from equipment where eqmKind="配件類"';
+    $eqmA = $pdo->query($sql);
+    
+    $sql = 'select eqmNo,eqmName from equipment where eqmKind="炊具類"';
+    $eqmCK = $pdo->query($sql);
+    
+    $sql = 'select eqmNo,eqmName from equipment where eqmKind="食品類"';
+    $eqmF = $pdo->query($sql);
+
+    $sql = 'select distinct pdkNo  , eqmNo from productchecklist where pdkNo=:pdkNo';
+    $pdkCollect = $pdo->prepare($sql);
+    $pdkCollect ->bindValue(':pdkNo',$pdkNo);
+    $pdkCollect ->execute();
+    $pdkCollectChecked = [];
+    while($pdkCollectRow = $pdkCollect->fetch(PDO::FETCH_ASSOC)){
+      array_push($pdkCollectChecked, $pdkCollectRow['eqmNo']);
+    }
+  
+  }catch (PDOException $e) {
+    echo "失敗",$e->getMessage(),"<br>";
+    echo "行號",$e->getLine();
 }
 
 
@@ -35,6 +80,7 @@ try{
 
   <!-- 可自行更動區塊 -->
   <title>山行者後台 - 編輯裝備清單</title>
+  <link rel="Shortcut Icon" type="image/x-icon" href="img/logo.png">
   <!-- 可自行更動區塊 -->
 
 <!-- ===========================自己的css開始======================= -->
@@ -66,22 +112,52 @@ try{
           <label for="">行程種類名稱</label>
         </div>
         <div class="col-20">
-       <input type="text" value="<?php 
-        if(isset($_REQUEST['pdkNo'])){
-       echo $pdkName; 
-       }?>">
+        <select name="pdkNo" id="" required>
+          <option value="" 
+            <?php 
+            if(isset($pdkNo) === false){
+              echo 'selected';
+                };?>>請選擇行程種類名稱
+          </option>
+          <?php while($pdkRow = $pdk->fetch(PDO::FETCH_ASSOC)){?>
+          <?php while($pdkRowD = $pdkD->fetch(PDO::FETCH_ASSOC)){?>
+            <option value="<?php echo $pdkRowD['pdkNo'];?>"        
+                <?php 
+              if(isset($pdkNo)){
+                  if($pdkNo == $pdkRowD['pdkNo']){
+                    echo 'selected';
+                }
+              };?>>
+              <?php echo $pdkRowD['pdkName'];?>
+            </option>
+          <?php }} ?>
+        </select>
+
         </div>
       </div>
+
+
+     
+    
       <div class="row">
         <div class="col-4">
           <label for="">寢具類</label>
         </div>
         <div class="col-20">
-          <input type="checkbox" name="eqmNo" value="1">帳篷
-          <input type="checkbox" name="eqmNo" value="2">睡袋外套
-          <input type="checkbox" name="eqmNo" value="3">睡袋內套
-          <input type="checkbox" name="eqmNo" value="4">露宿袋
-          <input type="checkbox" name="eqmNo" value="5">保暖睡墊
+        <?php while($eqmSRow = $eqmS->fetch(PDO::FETCH_ASSOC)){?>
+            <input type="checkbox" name="eqmNo[]" value="<?php echo $eqmSRow['eqmNo'];?>"
+            <?php
+              if(isset($pdkNo)){
+                for($i=0; $i<count($pdkCollectChecked); $i++){
+                  if($pdkCollectChecked[$i] == $eqmSRow['eqmNo']){
+                    echo "checked";
+                    break;
+                  }
+                }
+              }
+              ;?>
+            ><?php echo $eqmSRow['eqmName'];?>
+            <?php } ?>
         </div>
       </div>
       <div class="row">
@@ -89,11 +165,20 @@ try{
           <label for="">醫療類</label>
         </div>
         <div class="col-20">
-          <input type="checkbox" name="eqmNo" value="6">急救求生用品
-          <input type="checkbox" name="eqmNo" value="7">個人藥品
-          <input type="checkbox" name="eqmNo" value="8">防蚊液
-          <input type="checkbox" name="eqmNo" value="9">高山藥
-          <input type="checkbox" name="eqmNo" value="10">防曬油
+        <?php while($eqmMRow = $eqmM->fetch(PDO::FETCH_ASSOC)){?>
+            <input type="checkbox" name="eqmNo[]" value="<?php echo $eqmMRow['eqmNo'];?>"
+            <?php
+              if(isset($pdkNo)){
+                for($i=0; $i<count($pdkCollectChecked); $i++){
+                  if($pdkCollectChecked[$i] == $eqmMRow['eqmNo']){
+                    echo "checked";
+                    break;
+                  }
+                }
+              }
+              ;?>
+            ><?php echo $eqmMRow['eqmName'];?>
+            <?php } ?>
         </div>
       </div>
       <div class="row">
@@ -101,12 +186,20 @@ try{
           <label for="">衣物類</label>
         </div>
         <div class="col-20">
-          <input type="checkbox" name="eqmNo" value="11">防風衣
-          <input type="checkbox" name="eqmNo" value="12">保暖衣
-          <input type="checkbox" name="eqmNo" value="13">雨衣
-          <input type="checkbox" name="eqmNo" value="14">保暖手套
-          <input type="checkbox" name="eqmNo" value="15">遮陽帽
-          <input type="checkbox" name="eqmNo" value="16">保暖帽
+          <?php while($eqmCRow = $eqmC->fetch(PDO::FETCH_ASSOC)){?>
+            <input type="checkbox" name="eqmNo[]" value="<?php echo $eqmCRow['eqmNo'];?>"
+            <?php
+              if(isset($pdkNo)){
+                for($i=0; $i<count($pdkCollectChecked); $i++){
+                  if($pdkCollectChecked[$i] == $eqmCRow['eqmNo']){
+                    echo "checked";
+                    break;
+                  }
+                }
+              }
+              ;?>
+            ><?php echo $eqmCRow['eqmName'];?>
+          <?php } ?>
         </div>
       </div>
       <div class="row">
@@ -114,15 +207,20 @@ try{
             <label for="">配件類</label>
           </div>
           <div class="col-20">
-            <input type="checkbox" name="eqmNo" value="17">登山杖
-            <input type="checkbox" name="eqmNo" value="18">登山鞋
-            <input type="checkbox" name="eqmNo" value="19">登山襪
-            <input type="checkbox" name="eqmNo" value="20">頭燈
-            <input type="checkbox" name="eqmNo" value="21">指北針
-            <input type="checkbox" name="eqmNo" value="22">扣繩
-            <input type="checkbox" name="eqmNo" value="23">冰爪
-            <input type="checkbox" name="eqmNo" value="24">防水袋
-            <input type="checkbox" name="eqmNo" value="25">望遠鏡
+            <?php while($eqmARow = $eqmA->fetch(PDO::FETCH_ASSOC)){?>
+              <input type="checkbox" name="eqmNo[]" value="<?php echo $eqmARow['eqmNo'];?>"
+              <?php
+              if(isset($pdkNo)){
+                for($i=0; $i<count($pdkCollectChecked); $i++){
+                  if($pdkCollectChecked[$i] == $eqmARow['eqmNo']){
+                    echo "checked";
+                    break;
+                  }
+                }
+              }
+              ;?>
+              ><?php echo $eqmARow['eqmName'];?>
+            <?php } ?>
           </div>
         </div>
       <div class="row">
@@ -130,12 +228,20 @@ try{
           <label for="">炊具類</label>
         </div>
         <div class="col-20">
-          <input type="checkbox" name="eqmNo" value="26">爐子(汽化爐、瓦斯爐)
-          <input type="checkbox" name="eqmNo" value="27">爐子燃料
-          <input type="checkbox" name="eqmNo" value="28">保溫壺
-          <input type="checkbox" name="eqmNo" value="29">套鍋組
-          <input type="checkbox" name="eqmNo" value="30">擋風板
-          <input type="checkbox" name="eqmNo" value="31">打火機
+          <?php while($eqmCKRow = $eqmCK->fetch(PDO::FETCH_ASSOC)){?>
+            <input type="checkbox" name="eqmNo[]" value="<?php echo $eqmCKRow['eqmNo'];?>"
+            <?php
+              if(isset($pdkNo)){
+                for($i=0; $i<count($pdkCollectChecked); $i++){
+                  if($pdkCollectChecked[$i] == $eqmCKRow['eqmNo']){
+                    echo "checked";
+                    break;
+                  }
+                }
+              }
+              ;?>
+            ><?php echo $eqmCKRow['eqmName'];?>
+          <?php } ?>
         </div>
       </div>
       <div class="row">
@@ -143,12 +249,20 @@ try{
           <label for="">食品類</label>
         </div>
         <div class="col-20">
-          <input type="checkbox" name="eqmNo" value="32">行動乾糧
-          <input type="checkbox" name="eqmNo" value="33">乾燥食品
-          <input type="checkbox" name="eqmNo" value="34">高熱量口糧
-          <input type="checkbox" name="eqmNo" value="35">綜合維他命
-          <input type="checkbox" name="eqmNo" value="36">濾水器
-          <input type="checkbox" name="eqmNo" value="37">調味品
+          <?php while($eqmFRow = $eqmF->fetch(PDO::FETCH_ASSOC)){?>
+            <input type="checkbox" name="eqmNo[]" value="<?php echo $eqmFRow['eqmNo'];?>"
+            <?php
+              if(isset($pdkNo)){
+                for($i=0; $i<count($pdkCollectChecked); $i++){
+                  if($pdkCollectChecked[$i] == $eqmFRow['eqmNo']){
+                    echo "checked";
+                    break;
+                  }
+                }
+              }
+              ;?>
+            ><?php echo $eqmFRow['eqmName'];?>
+          <?php } ?>
         </div>
       </div>
       

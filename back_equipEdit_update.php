@@ -3,32 +3,30 @@ session_start();
 error_reporting(0);
 $eqmNo = $_REQUEST['eqmNo'];
 $eqmName = $_REQUEST['eqmName'];
-$eqmImg = $_REQUEST['eqmImg'];
- echo $eqmNo."gg<br>";
- echo gettype($eqmNo);
+$eqmKind = $_REQUEST['eqmKind'];
+
 try{
   require_once('connectDb.php');
   if(isset($_REQUEST['eqmNo'])){
     $eqmNo = $_REQUEST['eqmNo'];
-    $sql = "UPDATE equipment SET eqmNo=:eqmNo, eqmName=:eqmName, eqmImg=:eqmImg WHERE eqmNo=:eqmNo";
-    // echo $sql;
+    $sql = "UPDATE equipment SET eqmNo=:eqmNo, eqmName=:eqmName, eqmKind=:eqmKind WHERE eqmNo=:eqmNo";
     $eqm = $pdo -> prepare($sql);
     $eqm->bindValue(':eqmNo', $eqmNo);
     $eqm->bindValue(':eqmName', $eqmName);
-    $eqm->bindValue(':eqmImg', $eqmImg);
+    $eqm->bindValue(':eqmKind', $eqmKind);
+    header('Location:back_equip.php');
    
     $eqm->execute();
   }else{
-    if($eqmNo == 'NULL'){
-      $sql = 'insert into equipment eqmName, eqmImg)
-      values (:eqmName, :eqmImg)';
-          echo $sql;
-
-      $product = $pdo -> prepare($sql);
+    if($eqmNo == NULL){
+      $sql = 'insert into equipment (eqmName, eqmKind)
+      values (:eqmName, :eqmKind)';
+      $eqm = $pdo -> prepare($sql);
     }
-    $product->bindValue(':eqmName', $eqmName);
-    $product->bindValue(':eqmImg', $eqmImg);
-    $product->execute();
+    $eqm->bindValue(':eqmName', $eqmName);
+    $eqm->bindValue(':eqmKind', $eqmKind);
+    $eqm->execute();
+    header('Location:back_equip.php');
   }
 }catch (PDOException $e) {
   echo "失敗",$e->getMessage(),"<br>";

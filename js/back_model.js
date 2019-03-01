@@ -30,9 +30,9 @@ function toggleTab(e) {
     e.currentTarget.className += " active";
   }
 }
+
 //editPage
 function deletePage(e){
-
 }
 window.addEventListener("load", ()=>{
   menuli = document.querySelector("#menu > li");
@@ -44,7 +44,6 @@ window.addEventListener("load", ()=>{
   submenu__robot = document.getElementById("submenu__robot");
   submenu__member = document.getElementById("submenu__member");
   tablinks = document.getElementsByClassName("tablinks");
-  tabcontent = document.getElementsByClassName("tabcontent");
   menuli.addEventListener("click", showmenu);
   for (var a=0; a<tablinks.length; a++){
     tablinks[a].addEventListener("click", toggleTab);

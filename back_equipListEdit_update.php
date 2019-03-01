@@ -1,48 +1,66 @@
 <?php
 session_start();
-error_reporting(0);
-$pdkNo = $_REQUEST['pdkNo'];
+// error_reporting(0);
+// $pdkNo = $_REQUEST['pdkNo'];
 $eqmNo = $_REQUEST['eqmNo'];
 
 try{
   require_once('connectDb.php');
-  if(isset($_REQUEST['pdkNo'])){
-    $pdkNo = $_REQUEST['pdkNo'];
-    $temparray =[];
-    array_push($temparray,$eqmNo);
-    print_r($temparray);
-    //     $sizeString = '';
-    foreach($eqmNo as $index=>$pdkNo) {
-      }
-    //   echo $eqmNo;
-    $sql = "UPDATE productchecklist SET eqmNo=".$eqmNo['n'][$index]."WHERE pdkNo=:pdkNo";
-    // $sql = 'update productchecklist set pdkNo=:pdkNo, eqmNo=:eqmNo where pdkNo=:pdkNo';
-    echo $sql;
+  $sql = 'select distinct pdkNo from productchecklist';
+
+  $findPdkNo = $pdo -> query($sql); 
+  $findArr = [];       
+  while($findRow = $findPdkNo->fetch(PDO::FETCH_ASSOC)){
+    array_push($findArr,$findRow['pdkNo']);
+  }
+  // print_r($findArr);
+  
+  $pdkNo = $_REQUEST['pdkNo'];
+  // echo $pdkNo;
+  // echo in_array($pdkNo, $findArr);
+  if(in_array($pdkNo, $findArr)){
+    echo "UP";
+
+    //先刪除
+    $sql ="DELETE FROM productchecklist WHERE pdkNo=:pdkNo";
     $product = $pdo -> prepare($sql);
     $product->bindValue(':pdkNo', $pdkNo);
-   
     $product->execute();
-  }else{
-    if($pdkNo == NULL){
-      $sql = 'insert into productchecklist (pdkNo, eqmNo)
-      values (:pdkNo, :eqmNo)';
-      $product = $pdo -> prepare($sql);
+    
+    //再新增 
+    $len = count($eqmNo); 
+    $sql = "";
+    for ($i = 0; $i < $len; $i++) { // Enter the loop   
+      echo "長度：".$len."<br>";
+      echo "第幾個：".$i."<br>";
+      $sql = "insert into
+      productchecklist
+      (pdkNo, eqmNo)
+      values(".$pdkNo.",".$eqmNo[$i].")
+      ;"; 
+      echo "行種編號：".$pdkNo."<br>";
+      echo "指令".$sql."<br>";
+      $pdo->exec($sql);
+      // $product = $pdo -> query($sql);        
+      // $product->execute();                
     }
+    header('Location:back_equip.php');
+  }else
+    if(! in_array($pdkNo, $findArr)){
     //要先有行程種類才能創建裝備清單
-    $pdkNo =20;
-    // echo $eqmNo;
-    // $eqmNoS =[];
-    // foreach($eqmNoS as $eqmNo) {
-    //   // array_push($eqmNoS,$eqmNo);
-    // }
-    $eqmNoS = array();
-    foreach($values as $key => $eqmNo) {
-      $eqmNoS[] = $key . " = '" . $eqmNo . "'";
+    $len = count($eqmNo);  // Number of iterations
+    $sql = "";
+    for ($i = 0; $i < $len; $i++) { // Enter the loop
+        $sql = "insert into
+                  productchecklist
+                  (pdkNo, eqmNo)
+                  values(".$pdkNo.",".$eqmNo[$i].")
+                  ;";
+        //
+        $pdo->exec($sql);
     }
-    print_r($eqmNoS);
-    $product->bindValue(':pdkNo', $pdkNo);
-    $product->bindValue(':eqmNo', $eqmNo);
-    $product->execute();
+    header('Location:back_equip.php');
+    // $product->bindValue(':pdkNo', $pdkNo);
   }
 }catch (PDOException $e) {
   echo "失敗",$e->getMessage(),"<br>";

@@ -4,11 +4,12 @@ session_start();
 //===========================自己的php開始=======================
 try{
   require_once('connectDb.php');
-  $sql = 'select * from equipment a join orderchecklist b on a.eqmNo=b.eqmNo';
+  // $sql = 'select * from equipment a join orderchecklist b on a.eqmNo=b.eqmNo';
+  $sql = 'select * from equipment ';
   $eq = $pdo->query($sql);
 
   // $sql = 'SELECT a.ordNo,c.pdkName ,c.mt FROM `order` a , product b,productkind c WHERE a.pdNo=b.pdNo OR b.pdkNo=c.pdkNo';
-  $sql = 'SELECT pdkNo,pdkName  FROM productkind ';
+  $sql = 'SELECT distinct b.pdkNo,a.pdkName  FROM productkind a, productchecklist b where a.pdkNo=b.pdkNo';
   $eqL = $pdo->query($sql);
 }catch (PDOException $e) {
   echo "失敗",$e->getMessage(),"<br>";
@@ -32,9 +33,10 @@ try{
       rel="stylesheet">
   <link rel="stylesheet" href="css/back_model.css">
   <script src="js/jquery-3.3.1.min.js"></script>
-
+  
   <!-- 可自行更動區塊 -->
   <title>山行者後台 - 裝備管理</title>
+  <link rel="Shortcut Icon" type="image/x-icon" href="img/logo.png">
   <!-- 可自行更動區塊 -->
 
 <!-- ===========================自己的css開始======================= -->
@@ -56,64 +58,68 @@ try{
   </div>
   <div class="tablearea">
     <div class="tab">
-      <button class="tablinks active" value="itineraryType">裝備</button>
-      <button class="tablinks" value="viewList">裝備清單</button>
+      <button class="tablinks active" value="itineraryType" id="eqmTab">裝備</button>
+      <button class="tablinks" value="viewList" id="eqmLTab">裝備清單</button>
     </div>
-    <a href="back_equipListEdit.php?pdkNo=&pdkName=" id="addItem" class="btn-main-s">新增項目</a>
-    <!-- <a href="back_equipEdit.php?eqmNo=&eqmName=" id="addItem" class="btn-main-s">新增項目</a> -->
+    <a href="" id="addItem" class="btn-main-s">新增項目</a>
+    <!-- <a href="back_equipListEdit.php?pdkNo=&pdkName=" id="addItem" class="btn-main-s">新增項目</a> -->
+    <!-- <a href="back_equipEdit.php?eqmName=" id="addItem" class="btn-main-s">新增項目</a> -->
     <div id="itineraryType" class="tabcontent active">
       <table>
         <tr>
           <th class="col-8">名稱</th>
-          <th class="col-3">分類</th>
-          <th class="col-3">圖片</th>
-          <th class="col-5">處理</th>
+          <th class="col-8">分類</th>
+          <th class="col-8">處理</th>
         </tr>
         <?php while($eqRow = $eq->fetch()){?>
         <tr>
           <input type="hidden" naem="eqmNo" value="<?php echo $eqRow['eqmNo']; ?>">
           <td class="col-8"><?php echo $eqRow['eqmName']; ?></td>
-          <td class="col-3"><?php echo $eqRow['eqmKind']; ?></td>
-          <td class="col-3"><input type="file" placeholder="請選擇檔案" multiple></td>
-          <td class="col-5">
+          <td class="col-8"><?php echo $eqRow['eqmKind']; ?></td>
+          <td class="col-8">
             <a href="back_equipEdit.php?eqmNo=<?php echo $eqRow['eqmNo']; ?>&eqmName=<?php echo $eqRow['eqmName']; ?>"><i class="edit material-icons">edit</i></a>
-            <a href="back_equip_delete.php?eqmNo=<?php echo $eqRow['eqmNo']; ?>"><i class="delete material-icons">delete</i></a>
+            <button class="btn_eqm">
+              <i class="delete material-icons">delete</i>
+              <input type="hidden" name="" class="eqmD" value="back_equip_delete.php?eqmNo=<?php echo $eqRow['eqmNo']; ?>">
+            </button>
           </td>
         </tr>
         <?php } ?>
 
 
-        
+  
         
       
       </table>
     </div>
-    
     <div id="viewList" class="tabcontent">
       <table>
         <tr>
-          <th class="col-3">行程種類編號</th>
-          <th class="col-8">行程種類名稱</th>
-          <th class="col-5">處理</th>
+          <th class="col-6">行程種類編號</th>
+          <th class="col-12">行程種類名稱</th>
+          <th class="col-6">處理</th>
         </tr>
+      
         <?php while($eqRow2 = $eqL->fetch()){?>
-        <tr>
-          <td class="col-3"><?php echo $eqRow2['pdkNo']; ?></td>
-          <td class="col-8"><?php echo $eqRow2['pdkName']; ?></td>
-          <td class="col-5">
-            <a href="back_equipListEdit.php?pdkNo=<?php echo $eqRow2['pdkNo']; ?>&pdkName=<?php echo $eqRow2['pdkName']; ?>"><i class="edit material-icons">edit</i></a>
-            <a href="back_equip_delete.php?pdkNo=<?php echo $eqRow2['pdkNo']; ?>"><i class="delete material-icons">delete</i></a>
-          </td>
-        </tr>
+          <tr>
+            <td class="col-6"><?php echo $eqRow2['pdkNo']; ?></td>
+            <td class="col-12"><?php echo $eqRow2['pdkName']; ?></td>
+            <td class="col-6">
+              <a href="back_equipListEdit.php?pdkNo=<?php echo $eqRow2['pdkNo']; ?>&pdkName=<?php echo $eqRow2['pdkName']; ?>"><i class="edit material-icons">edit</i></a>
+              <button class="btn_eqmList">
+                <i class="delete material-icons">delete</i>
+                <input type="hidden" name="" class="eqmLD" value="back_equipEdit_delete.php?pdkNo=<?php echo $eqRow2['pdkNo']; ?>">
+              </button>
+            </td>
+          </tr>
         <?php } ?>
-    
       </table>
     </div>
   </div>
 
 
 
-
+  
 
 <!-- ===========================各分頁內容結束(可填寫區塊結束)======================= -->
         </div>
@@ -124,6 +130,8 @@ try{
 </html>
 <script src="js/back_model.js"></script>
 <!-- ===========================自己的js開始======================= -->
+
+<script src="js/back_equip.js"></script>
 
 
 

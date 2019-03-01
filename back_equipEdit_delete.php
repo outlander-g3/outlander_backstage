@@ -2,14 +2,14 @@
 session_start();
 
 
-$eqmNo = $_REQUEST['eqmNo'];
+$pdkNo = $_REQUEST['pdkNo'];
 
 try{
   require_once('connectDb.php');
-  $sql = 'DELETE  FROM equipment WHERE eqmNo=:eqmNo';
+  $sql = 'DELETE  FROM productchecklist WHERE pdkNo=:pdkNo';
 //   $sql = 'DELETE equipment FROM  WHERE ordNo=:ordNo AND eqmName=:eqmName';
   $eqD = $pdo -> prepare($sql);
-  $eqD -> bindValue(':eqmNo',$eqmNo);
+  $eqD -> bindValue(':pdkNo',$pdkNo);
   $eqD->execute();
   header('Location:back_equip.php');
 
